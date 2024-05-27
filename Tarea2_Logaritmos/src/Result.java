@@ -1,36 +1,36 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Es la clase que representa los resultados de realizar el algoritmo Dijkstra sobre un grafo.
  */
 public class Result {
     /** Es una lista de distancias al nodo raíz para los distintos nodos del camino */
-    private ArrayList<Double> distancias;
+    private HashMap<Integer, Double> distancias;
 
     /** Es una lista de nodos previos al nodo actual */
-    private ArrayList<Nodo> previos;
+    private HashMap<Integer, Nodo> previos;
 
     /** El tiempo en milisegundos que se demoró el algoritmo */
     private long time;
 
     /** @return el arreglo de distancias */
-    public ArrayList<Double> getDist() {
+    public HashMap<Integer, Double> getDist() {
         return distancias;
     }
 
-    /** @param newDist el nuevo arreglo de distancias */
-    public void setDist(ArrayList<Double> newDist) {
-        this.distancias = newDist;
-    }
-
     /** @return el arreglo de nodos previos */
-    public ArrayList<Nodo> getPrevios() {
+    public HashMap<Integer, Nodo> getPrevios() {
         return previos;
     }
 
-    /** @param newPrevios el nuevo arreglo de nodos previos */
-    public void setPrevios(ArrayList<Nodo> newPrevios) {
+    /** @param newPrevios el nuevo Hashmap que representa los nodos previos */
+    public void setPrevios(HashMap<Integer, Nodo> newPrevios) {
         this.previos = newPrevios;
+    }
+
+    /** @param distancias Hashmap que representa las distancias entre nodos al utilizar Dijkstra */
+    public void setDistancias(HashMap<Integer, Double> distancias){
+        this.distancias = distancias;
     }
 
     /** @return el tiempo que demoró el algoritmo */

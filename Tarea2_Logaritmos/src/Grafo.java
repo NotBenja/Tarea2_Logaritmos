@@ -11,12 +11,12 @@ public class Grafo {
     private ArrayList<Arista> e;
 
     /** @return La lista de nodos del grafo*/
-    public ArrayList<Nodo> getE() {
+    public ArrayList<Nodo> getV() {
         return v;
     }
 
     /** @return La lista de aristas del grafo*/
-    public ArrayList<Arista> getV() {
+    public ArrayList<Arista> getE() {
         return e;
     }
 
