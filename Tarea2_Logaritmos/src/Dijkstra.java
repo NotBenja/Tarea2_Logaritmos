@@ -162,10 +162,11 @@ public class Dijkstra {
         previos.put(-1, previo);
 
         // Creamos el par (distancia, raiz) para luego agregarlo a la cola
-        Pair qRaiz = new Pair();
+        FPair qRaiz = new FPair();
         qRaiz.setDist(0.0);
         qRaiz.setNode(raiz);
-        q.enqueue(qRaiz);
+        FNode fNodeRoot = q.enqueue(qRaiz);
+        qRaiz.setFNode(fNodeRoot);
 
         //PASO 4, consideramos i=0 como nodo raíz
         for (int i = 1; i<=grafo.getV().size(); i++) {
@@ -178,28 +179,30 @@ public class Dijkstra {
             previos.put(nodoId, null);
 
             // Agregamos el par (distancia, nodo) correspondiente a la cola q
-            Pair qNodo = new Pair();
+            FPair qNodo = new FPair();
             qNodo.setDist(infinito);
             qNodo.setNode(nodo);
-            q.enqueue(qNodo);
+            FNode fNode = q.enqueue(qNodo);
+            qNodo.setFNode(fNode);
         }
 
         //Paso 6
         while (!q.isEmpty()) {
             // Obtenemos el par (d,v) con menor distancia en Q, que se elimina de la cola al hacer get()
-            Pair pair = q.get();
+            FPair pair = q.getMini().getPair();
+            q.extractMin();
             Nodo v = pair.getNode();
             int vId = pair.getNode().getId();
 
             // Obtenemos las aristas del grafo, para buscar a los vecinos de v
             ArrayList<Arista> aristas = grafo.getE();
 
-            // Recorremos el arreglo de aristas, y si encontramos un vecino, lo agregamos al array de vecinos
+            // Recorremos el arreglo de aristas en busca de vecinos
             for (Arista arista : aristas) {
                 int nodo1Id = arista.getNode1().getId();
                 int nodo2Id = arista.getNode2().getId();
 
-                //Fijamos al vecino como null mientras
+                // Fijamos al vecino como null mientras
                 Nodo u = null;
 
                 // Identificamos si la arista que estamos revisando contiene al nodo v
@@ -208,6 +211,7 @@ public class Dijkstra {
                 } else if (nodo2Id == vId) {
                     u = arista.getNode1();
                 }
+                // Si la arista contenía a v, u es un vecino
                 if (u != null) {
                     int uId = u.getId();
                     double dist = distancias.get(vId) + arista.getWeight();
@@ -216,7 +220,7 @@ public class Dijkstra {
                     if (distancias.get(uId) > dist) {
                         distancias.put(uId, dist);
                         previos.put(uId, v);
-                        q.decreaseKey(u.getPointer(), dist);
+                        q.decreaseKey(dist, u.getfPointer());
                     }
                 }
             }

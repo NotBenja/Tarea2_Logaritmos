@@ -1,7 +1,7 @@
 /** Clase que representa un nodo perteneciente a la cola de fibonacci, que también puede ser la raíz del heap */
 public class FNode {
 
-    private Pair pair = null;
+    private FPair pair = null;
     /** Nodo padre del nodo actual */
     private FNode parent = null;
     /** Nodo hijo del nodo actual*/
@@ -29,7 +29,7 @@ public class FNode {
     }
     /** Asigna el par asociado al nodo y los valores default del resto de variables
      * @param p el par que contiene el nodo */
-    void setPair(Pair p){
+    void setPair(FPair p) {
         this.pair=p;
         this.key=p.getDist();
         this.degree=0;
@@ -94,5 +94,9 @@ public class FNode {
     /** @return La flag del nodo*/
     public String getC(){
         return this.c;
+    }
+    /** @return El par guardado en el nodo */
+    public FPair getPair() {
+        return this.pair;
     }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
  */
 public class Fibonacci {
     /** Nodo que contiene el mínimo */
-    FNode mini = null;
+    private FNode mini = null;
     /** Número de nodos que posee */
     int numberOfNodes = 0;
 
@@ -13,7 +13,7 @@ public class Fibonacci {
      * Inserta un par p en la cola.
      * @param p El par insertado.
      */
-    public void enqueue(Pair p) {
+    public FNode enqueue(FPair p) {
         FNode newNode = new FNode();
         newNode.setPair(p);
 
@@ -32,6 +32,8 @@ public class Fibonacci {
             mini = newNode;
         }
         numberOfNodes += 1;
+
+        return newNode;
     }
 
     /** Actualiza la estructura y conexiones entre un nodo hijo y su nodo padre
@@ -75,7 +77,7 @@ public class Fibonacci {
     }
 
     /**
-     *
+     * Une dos colas de fibonacci.
      */
     public void union() {
         int temp2 = (int) (Math.log(numberOfNodes)/Math.log(2));
@@ -125,7 +127,7 @@ public class Fibonacci {
             // Conseguimos el nodo en la posición j del arreglo
             FNode nodoj = arr.get(j);
 
-            if (nodoj == null) {
+            if (nodoj != null) {
                 nodoj.setLeft(nodoj);
                 nodoj.setRight(nodoj);
 
@@ -150,24 +152,137 @@ public class Fibonacci {
         }
     }
 
+/** Método que extrae el mínimo de una cola de fibonacci*/
+    public void extractMin() {
+        if (mini != null) {
+            FNode temp = mini;
+            FNode pntr = temp;
+            FNode x = null;
+
+            if (temp.getChild() != null) {
+                x = temp.getChild();
+
+                while (true) {
+                    pntr = x.getRight();
+                    mini.getLeft().setRight(x);
+                    x.setRight(mini);
+                    x.setLeft(mini.getLeft());
+                    mini.setLeft(x);
+
+                    if (x.getKey() < mini.getKey()) {
+                        mini = x;
+                    }
+                    x.setParent(null);
+                    x = pntr;
+
+                    if (pntr == temp.getChild()) {
+                        break;
+                    }
+
+                }
+            }
+            temp.getLeft().setRight(temp.getRight());
+            temp.getRight().setLeft(temp.getLeft());
+            mini = temp.getRight();
+
+            if (temp == temp.getRight() && temp.getChild() == null) {
+                mini = null;
+            } else {
+                mini = temp.getRight();
+                union();
+            }
+            numberOfNodes -= 1;
+        }
+
+    }
+
+    /**
+     * Corta un nodo de la cola para colocarlo en la raíz.
+     * @param found Es el nodo a cambiar de lugar.
+     * @param temp Es el nodo padre de found.
+     */
+    public void cut(FNode found, FNode temp) {
+        // Si found no tiene hijos, se le asigna a temp un hijo null
+        if (found.getChild() == found) {
+            temp.setChild(null);
+        }
+
+        // Se elimina a found de la lista de hermanos
+        found.getLeft().setRight(found.getRight());
+        found.getRight().setLeft(found.getLeft());
+
+        // Si found sigue declarado como el hijo de temp, se le asigna a
+        // temp (como hijo) el hermano a la derecha de found
+        if (found == temp.getChild()) {
+            temp.setChild(found.getRight());
+        }
+
+        // Se actualiza la información:
+        // Se reduce la cantidad de hijos de temp
+        temp.setDegree(temp.getDegree()-1);
+        // Se aisla found de la lista de hermanos
+        found.setRight(found);
+        found.setLeft(found);
+        // Se conectan mini y found
+        mini.getLeft().setRight(found);
+        found.setRight(mini);
+        found.setLeft(mini.getLeft());
+        mini.setLeft(found);
+        found.setParent(null);
+        found.setMark("B");
+    }
+
+    /**
+     * Es la parte recursiva de la función Cut.
+     * @param temp un nodo de fibonacci.
+     */
+    public void cascadeCut(FNode temp) {
+        FNode ptr5 = temp.getParent();
+
+        if (ptr5 != null) {
+            if (temp.getMark().equals("W")) {
+                temp.setMark("B");
+            } else {
+                cut(temp, ptr5);
+                cascadeCut(ptr5);
+            }
+        }
+    }
+
     /**
      * Tiempo = O(1)
      * Actualiza la distancia del par que representa al nodo respectivo en Q.
-     * @param p
-     * @param newDist
+     * @param p Es el par de la cola que debe modificarse.
+     * @param newDist Es la nueva distancia que debe colocarse al par de la cola.
      */
-    public void decreaseKey(Pair p, double newDist) {
+    public void decreaseKey(double newDist, FPair p) {
+        if (mini == null || p == null) {
+        } else {
+            // Accedemos al FNode asociado al par y actualizamos la distancia en ambos
+            FNode found = p.getFNode();
+            p.setDist(newDist);
+            found.setKey(newDist);
 
+            // temp será el padre de found
+            FNode temp = found.getParent();
+
+            if (temp != null && found.getKey() > temp.getKey()) {
+                cut(found, temp);
+                cascadeCut(temp);
+            }
+            if (found.getKey() < mini.getKey()) {
+                mini = found;
+            }
+        }
     }
 
     /** @return true si la cola está vacía. */
     public boolean isEmpty() {
-        return false;
+        return mini == null;
     }
 
     /** @return el primer elemento de la cola y eliminarlo. */
-    public Pair get() {
-        Pair p = new Pair();
-        return p;
+    public FNode getMini() {
+        return mini;
     }
 }
