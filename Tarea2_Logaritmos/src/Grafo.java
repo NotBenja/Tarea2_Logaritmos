@@ -24,7 +24,7 @@ public class Grafo {
      * Método que agrega un nodo al grafo
      * */
     public void addNode(Nodo newNodo) {
-        if(v.contains(newNodo) || newNodo == null){
+        if(v.contains(newNodo) || newNodo == null) {
             return;
         }
         v.add(newNodo);
@@ -34,7 +34,7 @@ public class Grafo {
      * Método que agrega una arista al grafo
      * */
     public void addEdge(Arista newArista){
-        if(e.contains(newArista) || newArista == null){
+        if(e.contains(newArista) || newArista == null) {
             return;
         }
         e.add(newArista);

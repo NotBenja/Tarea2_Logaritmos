@@ -13,8 +13,9 @@ public class Heap {
     /**
      * Tiempo = O(log n)
      * Actualiza la distancia del par que representa al nodo respectivo en Q.
-     * @param p Es el par del nodo al que se le actualiza la distancia
-     * @param newDist Es la nueva distancia que tiene el nodo n
+     * @param p Es el par del nodo al que se le actualiza la distancia.
+     * @param newDist Es la nueva distancia que tiene el nodo n.
+     * @param index Es el índice del par a modificar.
      */
     public void decreaseKey(Pair p, double newDist, int index) {
         p.setDist(newDist);
@@ -23,11 +24,12 @@ public class Heap {
         if (index!=0) {
             // Padre del nodo actual al que se le modifica la distancia
             int parentIndex = (index-1)/2;
-            Pair parent = q.get(parentIndex);
+            Pair parent = q.remove(parentIndex);
 
             // Swap sobre el nodo y el padre, llamamos recursivamente
             if (parent.getDist() > newDist) {
                 q.add(parentIndex, p); // ponemos al hijo en la posición del padre
+                q.remove(index);
                 q.add(index, parent); // y al padre en la posición del hijo
 
                 // Llamamos recursivamente sobre la posición parentIndex
