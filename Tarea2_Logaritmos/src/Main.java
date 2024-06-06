@@ -9,7 +9,7 @@ public class Main {
      * @param i Es la potencia hasta la cual se generan nodos.
      * @param j Es la potencia hasta la cual se generan aristas.
      */
-    public Grafo createGrafo(int i, int j) {
+    public static Grafo createGrafo(int i, int j) {
         // Sets experimentación:
         // v = 2^i Nodos, i en {10,12,14}
         // e = 2^j Aristas, j en {16,17,18}
@@ -42,11 +42,11 @@ public class Main {
             Arista a = new Arista(peso, nodoK, otroNodo);
             g.addEdge(a);
         }
-
+        
         for (int k=0; k<limiteAristas-(limiteNodos-1); k++) {
             // Buscamos 2 nodos cualquiera
-            int index1 = r.nextInt();
-            int index2 = r.nextInt();
+            int index1 = r.nextInt(limiteNodos);
+            int index2 = r.nextInt(limiteNodos);
 
             Nodo nodo1 = nodos.get(index1);
             Nodo nodo2 = nodos.get(index2);
@@ -66,6 +66,22 @@ public class Main {
     // v = 2^i Nodos, i en {10,12,14}
     // e = 2^j Aristas, j en {16,17,18}
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        System.out.println("Creando Grafo");
+        Grafo g = createGrafo(10,16);
+        System.out.println("Grafo Ok");
+        //createGrafo(10,17);
+        //createGrafo(10,18);
+        //createGrafo(12,16);
+        //createGrafo(12,17);
+        //createGrafo(12,18);
+        //createGrafo(14,16);
+        //createGrafo(14,17);
+        //createGrafo(14,18);
+
+        Result rfibb = d.dijkstraFibb(g);
+        System.out.println("Dijkstra Fibb Ok");
+        //Result rheap = d.dijkstraHeap(g);
+        //System.out.println("Dijkstra Heap Ok");
+
     }
 }

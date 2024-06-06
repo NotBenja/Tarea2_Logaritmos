@@ -16,7 +16,7 @@ public class Dijkstra {
      * entre la raíz y ese nodo es mínima para las aristas pertenecientes
      * al árbol que los conectan.
      */
-    public static Result dijkstraHeap(Grafo grafo) {
+    public Result dijkstraHeap(Grafo grafo) {
         // Crear una pseudo cola Q1
         ArrayList<Pair> q1 = new ArrayList<>();
 
@@ -133,7 +133,7 @@ public class Dijkstra {
      * entre la raíz y ese nodo es mínima para las aristas pertenecientes
      * al árbol que los conectan.
      */
-    public static Result dijkstraFibb(Grafo grafo) {
+    public Result dijkstraFibb(Grafo grafo) {
         // Cola de fibonacci para ir trabajando con los elementos
         Fibonacci q = new Fibonacci();
 
