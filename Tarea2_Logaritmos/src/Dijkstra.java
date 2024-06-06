@@ -53,7 +53,7 @@ public class Dijkstra {
 
         // Paso 4
         // Consideramos i=0 como nodo raíz
-        for (int i = 1; i<=grafo.getV().size(); i++) {
+        for (int i = 1; i<grafo.getV().size(); i++) {
             // El nodo al cual nos referimos en la iteración actual
             Nodo nodo = grafo.getV().get(i);
             // Nos aseguramos de poner el id actual en el hashmap
@@ -169,7 +169,7 @@ public class Dijkstra {
         qRaiz.setFNode(fNodeRoot);
 
         //PASO 4, consideramos i=0 como nodo raíz
-        for (int i = 1; i<=grafo.getV().size(); i++) {
+        for (int i = 1; i<grafo.getV().size(); i++) {
             // El nodo al cual nos referimos en la iteración actual
             Nodo nodo = grafo.getV().get(i);
             // Nos aseguramos de poner el id actual en el hashmap

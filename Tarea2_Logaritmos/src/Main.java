@@ -42,7 +42,7 @@ public class Main {
             Arista a = new Arista(peso, nodoK, otroNodo);
             g.addEdge(a);
         }
-        
+
         for (int k=0; k<limiteAristas-(limiteNodos-1); k++) {
             // Buscamos 2 nodos cualquiera
             int index1 = r.nextInt(limiteNodos);
@@ -78,10 +78,10 @@ public class Main {
         //createGrafo(14,17);
         //createGrafo(14,18);
 
-        Result rfibb = d.dijkstraFibb(g);
-        System.out.println("Dijkstra Fibb Ok");
-        //Result rheap = d.dijkstraHeap(g);
-        //System.out.println("Dijkstra Heap Ok");
+        //Result rfibb = d.dijkstraFibb(g);
+        //System.out.println("Dijkstra Fibb Ok");
+        Result rheap = d.dijkstraHeap(g);
+        System.out.println("Dijkstra Heap Ok");
 
     }
 }
