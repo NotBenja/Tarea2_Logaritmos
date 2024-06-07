@@ -51,6 +51,7 @@ public class Dijkstra {
 
         q1.add(qRaiz);
 
+
         // Paso 4
         // Consideramos i=0 como nodo raíz
         for (int i = 1; i<grafo.getV().size(); i++) {
@@ -67,6 +68,9 @@ public class Dijkstra {
             qNodo.setDist(infinito);
             qNodo.setNode(nodo);
             q1.add(qNodo);
+
+            // Ahora agregamos al nodo una referencia a su par correspondiente
+            nodo.setPointer(qNodo);
         }
 
         // Paso 5
@@ -96,8 +100,10 @@ public class Dijkstra {
                 // Identificamos si la arista que estamos revisando contiene al nodo v
                 if (nodo1Id == vId) {
                     u = arista.getNode2();
+
                 } else if (nodo2Id == vId) {
                     u = arista.getNode1();
+
                 }
                 if (u != null) {
                     int uId = u.getId();

@@ -21,7 +21,7 @@ public class Heap {
         p.setDist(newDist);
 
         // Si este nodo es la raíz, no hacemos nada
-        if (index!=0) {
+        if (index > 0) {
             // Padre del nodo actual al que se le modifica la distancia
             int parentIndex = (index-1)/2;
             Pair parent = q.remove(parentIndex);
@@ -49,9 +49,12 @@ public class Heap {
      * @return el primer elemento de la cola y eliminarlo.
      */
     public Pair get() {
-        Pair p = q.get(0);
-        q.add(0, q.remove(q.size()-1));
-        heapify(q, q.size(), 0);
+        Pair p = q.remove(0);
+        if (q.size() > 1) {
+            Pair pRemoved = q.remove(q.size()-1);
+            q.add(0, pRemoved);
+            heapify(q, q.size(), 0);
+        }
         return p;
     }
 
@@ -63,34 +66,65 @@ public class Heap {
         Pair smallest = pq.get(i);
         int l = 2 * i + 1; //índice del hijo izquierdo del nodo min
         int r = 2 * i + 2; //índice del hijo derecho del nodo min
-        int index = i;
-        double smallestDist = smallest.getDist();
-        double leftDist = pq.get(l).getDist();
-        double rightDist = pq.get(r).getDist();
 
-        //Si la distancia del hijo izquierdo es menor que la de la raiz
-        if (l < N && leftDist < smallestDist) {
-            smallest = pq.get(l);
-            index = l;
-        }
+        if (l >= pq.size()) {
+            // Si l está fuera de rango significa que el nodo del índice i no tiene hijos,
+            // no se hace nada
+            return;
+        } else if (r >= pq.size()) {
+            // Si solo tiene un hijo (el izquierdo) solo aplicamos el proceso sobre ese nodo
+            int index = i;
+            double smallestDist = smallest.getDist();
+            double leftDist = pq.get(l).getDist();
 
-        // Si la distancia del hijo derecho es la menor hasta ahora
-        if (r < N && rightDist < smallestDist) {
-            smallest = pq.get(r);
-            index = r;
-        }
+            //Si la distancia del hijo izquierdo es menor que la de la raiz
+            if (l < N && leftDist < smallestDist) {
+                smallest = pq.get(l);
+                index = l;
+            }
 
-        // Si la raíz no corresponde al par definido como smallest, se hace un swap
-        if (smallest != pq.get(i)) {
-            Pair swap = pq.get(i);
-            pq.add(i, smallest);
-            pq.remove(i+1);
+            // Si la raíz no corresponde al par definido como smallest, se hace un swap
+            if (smallest != pq.get(i)) {
+                Pair swap = pq.get(i);
+                pq.add(i, smallest);
+                pq.remove(i+1);
 
-            pq.add(index, swap);
-            pq.remove(index+1);
+                pq.add(index, swap);
+                pq.remove(index+1);
 
-            // Llamamos recursivamente a heapify
-            heapify(pq, N, index);
+                // Llamamos recursivamente a heapify
+                heapify(pq, N, index);
+            }
+        } else {
+            int index = i;
+            double smallestDist = smallest.getDist();
+            double leftDist = pq.get(l).getDist();
+            double rightDist = pq.get(r).getDist();
+
+            //Si la distancia del hijo izquierdo es menor que la de la raiz
+            if (l < N && leftDist < smallestDist) {
+                smallest = pq.get(l);
+                index = l;
+            }
+
+            // Si la distancia del hijo derecho es la menor hasta ahora
+            if (r < N && rightDist < smallestDist) {
+                smallest = pq.get(r);
+                index = r;
+            }
+
+            // Si la raíz no corresponde al par definido como smallest, se hace un swap
+            if (smallest != pq.get(i)) {
+                Pair swap = pq.get(i);
+                pq.add(i, smallest);
+                pq.remove(i+1);
+
+                pq.add(index, swap);
+                pq.remove(index+1);
+
+                // Llamamos recursivamente a heapify
+                heapify(pq, N, index);
+            }
         }
     }
 
@@ -104,7 +138,7 @@ public class Heap {
         int startIdx = (N / 2) - 1;
 
         // Hacemos heapify desde el último nodo del árbol cambiado
-        for (int i = startIdx; i >= 0; i--) {
+        for (int i = startIdx-1; i >= 0; i--) {
             heapify(pq, N, i);
         }
 

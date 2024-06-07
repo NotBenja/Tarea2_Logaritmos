@@ -85,7 +85,7 @@ public class Fibonacci {
         ArrayList<FNode> arr = new ArrayList<FNode>(temp3);
 
         for (int i = 0; i<temp3; i++) {
-            arr.set(i,null);
+            arr.add(null);
         }
             
         FNode ptr1 = mini;

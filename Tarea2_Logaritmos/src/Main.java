@@ -3,6 +3,7 @@ import java.util.Random;
 
 public class Main {
     private static Dijkstra d = new Dijkstra();
+    private static Writer w = new Writer();
 
     /**
      * Crea un grafo conexo y no dirigido.
@@ -62,10 +63,72 @@ public class Main {
         return g;
     }
 
+    /**
+     * Convierte un long en un string
+     * @param value Un valor tipo long
+     * @return El mismo valor transformado a string
+     */
+    public static String toString(long value) {
+        return Long.toString(value);
+    }
+
+    /**
+     * Escribe los resultados en tiempo para un grafo de i nodos y j aristas con cola Heap
+     * @param i la cantidad de nodos del grafo
+     * @param j la cantidad de aristas del grafo
+     * @param limite la cantidad de tests y grafos (i,j) creados
+     * @param filename el nombre del archivo donde se guardan los tests
+     */
+    public static void testsHeap(int i, int j, int limite, String filename) {
+        for(int k=0; k<=limite; k++){
+            Grafo g = createGrafo(i, j);
+            Result r = d.dijkstraHeap(g);
+            long content = r.getTime();
+            if (k > 0) {
+              w.write(filename, toString(content));
+            }
+        }
+    }
+
+    /**
+     * Escribe los resultados en tiempo para un grafo de i nodos y j aristas con cola Fibonacci
+     * @param i la cantidad de nodos del grafo
+     * @param j la cantidad de aristas del grafo
+     * @param limite la cantidad de tests y grafos (i,j) creados
+     * @param filename el nombre del archivo donde se guardan los tests
+     */
+    public static void testsFibonacci(int i, int j, int limite, String filename) {
+        // Se hacen limite tests sobre un grafo i,j
+        for (int k = 0; k<limite; k++) {
+            Grafo g = createGrafo(i,j);
+            Result rfibb = d.dijkstraFibb(g);
+            long content = rfibb.getTime();
+            if (k > 0) {
+                w.write(filename, toString(content));
+            }
+        }
+    }
+
     // Sets experimentación:
     // v = 2^i Nodos, i en {10,12,14}
     // e = 2^j Aristas, j en {16,17,18}
     public static void main(String[] args) {
+        int i = 10;
+        int j = 16;
+        String filenameHeap = "tests/resultsHeap";
+        String filenameFibonacci = "tests/resultsFibonacci";
+
+        // Para el par i, j hace 50 tests para cada algoritmo
+        filenameHeap += toString(i) + "_" + toString(j) +".txt";
+        filenameFibonacci += toString(i) + "_" + toString(j) + ".txt";
+
+        //System.out.println("Tests heap");
+        //testsHeap(i, j, 51, filenameHeap);
+        //System.out.println("Tests heap finalizados");
+        //System.out.println("Tests fibonacci");
+        //testsFibonacci(i, j, 51, filenameFibonacci);
+        //System.out.println("Tests fibonacci finalizados");
+
         System.out.println("Creando Grafo");
         Grafo g = createGrafo(10,16);
         System.out.println("Grafo Ok");
@@ -78,10 +141,15 @@ public class Main {
         //createGrafo(14,17);
         //createGrafo(14,18);
 
-        //Result rfibb = d.dijkstraFibb(g);
-        //System.out.println("Dijkstra Fibb Ok");
-        Result rheap = d.dijkstraHeap(g);
-        System.out.println("Dijkstra Heap Ok");
-
+        Result rfibb = d.dijkstraFibb(g);
+        System.out.println("Dijkstra Fibb Ok");
+        //Result rheap = d.dijkstraHeap(g);
+        //System.out.println("Dijkstra Heap Ok");
+        System.out.println("Dist");
+        System.out.println(rfibb.getDist());
+        System.out.println("Previos");
+        System.out.println(rfibb.getPrevios());
+        System.out.println("Tiempo");
+        System.out.println(rfibb.getTime());
     }
 }
