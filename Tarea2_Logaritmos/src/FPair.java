@@ -6,7 +6,7 @@ public class FPair {
     private double dist;
 
     /** Nodo de fibonacci asociado al par */
-    private FNode fNode;
+    private FibonacciHeap.FNode fNode;
 
     /** Nodo asociado al par */
     private Nodo node;
@@ -22,12 +22,12 @@ public class FPair {
     }
 
     /** @param newNode el nuevo nodo asociado al par */
-    public void setFNode(FNode newNode) {
+    public void setFNode(FibonacciHeap.FNode newNode) {
         this.fNode = newNode;
     }
 
     /** @return el nodo asociado al par */
-    public FNode getFNode() {
+    public FibonacciHeap.FNode getFNode() {
         return fNode;
     }
 

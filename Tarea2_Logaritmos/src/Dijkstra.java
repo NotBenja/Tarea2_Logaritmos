@@ -4,7 +4,6 @@ import java.util.HashMap;
 /**
  * Es la clase que implementa el algoritmo Dijkstra.
  */
-@SuppressWarnings("DuplicatedCode")
 public class Dijkstra {
 
     /**
@@ -17,11 +16,11 @@ public class Dijkstra {
      * al árbol que los conectan.
      */
     public Result dijkstraHeap(Grafo grafo) {
-        // Crear una pseudo cola Q1
-        ArrayList<Pair> q1 = new ArrayList<>();
-
         // Tiempo en el que el algoritmo empezó a trabajar
         long initialTime = System.currentTimeMillis();
+
+        // Crear una pseudo cola Q1
+        ArrayList<Pair> q1 = new ArrayList<>();
 
         // Objeto que almacenará el resultado
         Result result = new Result();
@@ -120,12 +119,11 @@ public class Dijkstra {
                 }
             }
         }
-
-        long actualTime = System.currentTimeMillis();
-        result.setTime(actualTime-initialTime);
         result.setDistancias(distancias);
         result.setPrevios(previos);
 
+        long actualTime = System.currentTimeMillis();
+        result.setTime(actualTime-initialTime);
 
         return result;
     }
@@ -140,11 +138,11 @@ public class Dijkstra {
      * al árbol que los conectan.
      */
     public Result dijkstraFibb(Grafo grafo) {
-        // Cola de fibonacci para ir trabajando con los elementos
-        Fibonacci q = new Fibonacci();
-
         // Tiempo en el que el algoritmo empezó a trabajar
         long initialTime = System.currentTimeMillis();
+
+        // Cola de fibonacci para ir trabajando con los elementos
+        FibonacciHeap q = new FibonacciHeap();
 
         // Objeto que almacenará el resultado
         Result result = new Result();
@@ -171,7 +169,8 @@ public class Dijkstra {
         FPair qRaiz = new FPair();
         qRaiz.setDist(0.0);
         qRaiz.setNode(raiz);
-        FNode fNodeRoot = q.enqueue(qRaiz);
+        raiz.setfPointer(qRaiz);
+        FibonacciHeap.FNode fNodeRoot = q.enqueue(qRaiz);
         qRaiz.setFNode(fNodeRoot);
 
         //PASO 4, consideramos i=0 como nodo raíz
@@ -188,14 +187,15 @@ public class Dijkstra {
             FPair qNodo = new FPair();
             qNodo.setDist(infinito);
             qNodo.setNode(nodo);
-            FNode fNode = q.enqueue(qNodo);
+            nodo.setfPointer(qNodo);
+            FibonacciHeap.FNode fNode = q.enqueue(qNodo);
             qNodo.setFNode(fNode);
         }
 
         //Paso 6
         while (!q.isEmpty()) {
             // Obtenemos el par (d,v) con menor distancia en Q, que se elimina de la cola al hacer get()
-            FPair pair = q.getMini().getPair();
+            FPair pair = q.min().getPair();
             q.extractMin();
             Nodo v = pair.getNode();
             int vId = pair.getNode().getId();
@@ -217,6 +217,7 @@ public class Dijkstra {
                 } else if (nodo2Id == vId) {
                     u = arista.getNode1();
                 }
+
                 // Si la arista contenía a v, u es un vecino
                 if (u != null) {
                     int uId = u.getId();
@@ -226,16 +227,17 @@ public class Dijkstra {
                     if (distancias.get(uId) > dist) {
                         distancias.put(uId, dist);
                         previos.put(uId, v);
-                        q.decreaseKey(dist, u.getfPointer());
+                        q.decreaseKey(u.getfPointer().getFNode(), dist);
                     }
                 }
             }
         }
 
-        long actualTime = System.currentTimeMillis();
-        result.setTime(actualTime-initialTime);
         result.setDistancias(distancias);
         result.setPrevios(previos);
+
+        long actualTime = System.currentTimeMillis();
+        result.setTime(actualTime-initialTime);
 
         return result;
     }

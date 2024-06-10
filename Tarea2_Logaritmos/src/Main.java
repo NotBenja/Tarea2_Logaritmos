@@ -80,14 +80,18 @@ public class Main {
      * @param filename el nombre del archivo donde se guardan los tests
      */
     public static void testsHeap(int i, int j, int limite, String filename) {
-        for(int k=0; k<=limite; k++){
+        long total = 0;
+        for(int k=0; k<limite; k++){
             Grafo g = createGrafo(i, j);
             Result r = d.dijkstraHeap(g);
             long content = r.getTime();
             if (k > 0) {
-              w.write(filename, toString(content));
+                total += content;
+                w.write(filename, toString(content));
             }
         }
+        total = total/50;
+        w.write(filename, "Promedio: " + toString(total));
     }
 
     /**
@@ -99,14 +103,18 @@ public class Main {
      */
     public static void testsFibonacci(int i, int j, int limite, String filename) {
         // Se hacen limite tests sobre un grafo i,j
+        long total = 0;
         for (int k = 0; k<limite; k++) {
             Grafo g = createGrafo(i,j);
             Result rfibb = d.dijkstraFibb(g);
             long content = rfibb.getTime();
             if (k > 0) {
                 w.write(filename, toString(content));
+                total+=content;
             }
         }
+        total = total/50;
+        w.write(filename, "Promedio: " + toString(total));
     }
 
     // Sets experimentación:
@@ -122,21 +130,27 @@ public class Main {
         filenameHeap += toString(i) + "_" + toString(j) +".txt";
         filenameFibonacci += toString(i) + "_" + toString(j) + ".txt";
 
-        //System.out.println("Tests heap");
-        //testsHeap(i, j, 51, filenameHeap);
-        //System.out.println("Tests heap finalizados");
-        //System.out.println("Tests fibonacci");
-        //testsFibonacci(i, j, 51, filenameFibonacci);
-        //System.out.println("Tests fibonacci finalizados");
+        System.out.println("Tests heap");
+        testsHeap(i, j, 51, filenameHeap);
+        System.out.println("Tests heap finalizados");
+        System.out.println("Tests fibonacci");
+        testsFibonacci(i, j, 51, filenameFibonacci);
+        System.out.println("Tests fibonacci finalizados");
 
+        /**
+        // POR CADA PAR (i,j) se hacen 50 tests
+        // Para regresión lineal: Suma de errores al cuadrado
+        //Zamy
         System.out.println("Creando Grafo");
         Grafo g = createGrafo(10,16);
         System.out.println("Grafo Ok");
         //createGrafo(10,17);
         //createGrafo(10,18);
+        // Eve
         //createGrafo(12,16);
         //createGrafo(12,17);
         //createGrafo(12,18);
+        // Benja
         //createGrafo(14,16);
         //createGrafo(14,17);
         //createGrafo(14,18);
@@ -151,5 +165,6 @@ public class Main {
         System.out.println(rfibb.getPrevios());
         System.out.println("Tiempo");
         System.out.println(rfibb.getTime());
+         */
     }
 }

@@ -36,7 +36,6 @@ public class Nodo {
     public void setPointer(Pair newPointer) {
         this.pointer = newPointer;
     }
-
     /** @param newfPointer el nuevo puntero a un fPar asociado al nodo */
     public void setfPointer(FPair newfPointer) { this.fPointer = newfPointer; }
 
