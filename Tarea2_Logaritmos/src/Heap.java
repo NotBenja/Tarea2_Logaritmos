@@ -60,7 +60,7 @@ public class Heap {
 
     /**
      * Hace min heapify sobre una lista de pares.
-     * @param pq Es una pseudo cola de pares
+     * @param pq Es una pseudo cola de pares.
      */
     public void heapify(ArrayList<Pair> pq, int N, int i) {
         Pair smallest = pq.get(i);
@@ -130,8 +130,8 @@ public class Heap {
 
     /**
      * Construye un Min-Heap a base de una lista de pares.
-     * @param pq
-     * @param N
+     * @param pq Es una pseudo cola de pares.
+     * @param N El número de nodos totales.
      */
     public void buildHeap(ArrayList<Pair> pq, int N) {
         // El índice que representa el último nodo

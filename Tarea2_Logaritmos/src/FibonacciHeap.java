@@ -11,21 +11,21 @@ public class FibonacciHeap {
    */
   public static final class FNode {
     /** Número de hijos. */
-    private int mDegree = 0;
+    private int degree = 0;
     /** Devuelve si el nodo está marcado. */
-    private boolean mIsMarked = false;
+    private boolean isMarked = false;
     /** Elemento siguiente de la cola. */
-    private FNode mNext;
+    private FNode next;
     /** Elemento previo de la cola. */
-    private FNode mPrev;
+    private FNode prev;
     /** El padre del arbol, si tiene. */
-    private FNode mParent;
+    private FNode parent;
     /** Hijo del nodo, si tiene. */
-    private FNode mChild;
+    private FNode child;
     /** Distancia al nodo raíz y sus punteros al par que le corresponde. */
     private FPair mElem;
     /** La prioridad, que es equivalente a la distancia. */
-    private double mPriority;
+    private double priority;
 
     /**
      * @return El elemento contenido en la cola.
@@ -38,12 +38,13 @@ public class FibonacciHeap {
      * Constructor para un nuevo FNode que contiene el elemento elem,
      * con una cierta prioridad priority.
      *
-     * @param elem El elemento almacenado en la cola.
+     * @param newElem El elemento almacenado en la cola.
+     * @param newPriority Es la prioridad del elemento almacenado en la cola.
      */
-    private FNode(FPair elem, double priority) {
-      mNext = mPrev = this;
-      mElem = elem;
-      mPriority = priority;
+    private FNode(FPair newElem, double newPriority) {
+      next = prev = this;
+      mElem = newElem;
+      priority = newPriority;
     }
   }
 
@@ -51,7 +52,7 @@ public class FibonacciHeap {
   private FNode mMin = null;
 
   /** El tamaño de la cola. */
-  private int mSize = 0;
+  private int size = 0;
 
   /**
    * Inserta el elemento value a la cola de Fibonacci con la prioridad indicada en dist del value.
@@ -69,7 +70,7 @@ public class FibonacciHeap {
     mMin = mergeLists(mMin, result);
 
     // Aumenta el tamaño de la cola.
-    ++mSize;
+    ++size;
 
     // Retorna la referencia al nuevo elemento
     return result;
@@ -93,17 +94,16 @@ public class FibonacciHeap {
    * @return El número de elementos del heap.
    */
   public int size() {
-    return mSize;
+    return size;
   }
 
   /**
    * Desencola el mínimo elemento y busca el nuevo mínimo para asignarlo.
-   *
-   * @return El elemento más pequeño de la cola.
+   * O(log n)
    */
-  public FNode extractMin() {
+  public void extractMin() {
     // Como se pierde un elemento, se disminuye el tamaño de la cola.
-    --mSize;
+    --size;
 
     // Se guarda el minimo, así se sabe qué retornar.
     FNode minElem = mMin;
@@ -111,7 +111,7 @@ public class FibonacciHeap {
     // Se busca eliminar el mínimo de la lista de raíces.
     // Caso 1:
     // Es el único elemento que hay
-    if (mMin.mNext == mMin) {
+    if (mMin.next == mMin) {
       // Seteamos mMin a null
       mMin = null;
     }
@@ -119,28 +119,28 @@ public class FibonacciHeap {
     // Reasignamos las referencias de los elementos que apuntan al mínimo, ya que será removido
     // Se reasigna el mínimo.
     else {
-      mMin.mPrev.mNext = mMin.mNext;
-      mMin.mNext.mPrev = mMin.mPrev;
-      mMin = mMin.mNext;
+      mMin.prev.next = mMin.next;
+      mMin.next.prev = mMin.prev;
+      mMin = mMin.next;
     }
 
     // Se quitan las referencias padre de todos los hijos del mínimo.
-    if (minElem.mChild != null) {
+    if (minElem.child != null) {
       // El primer nodo visitado
-      FNode curr = minElem.mChild;
+      FNode curr = minElem.child;
       do {
-        curr.mParent = null;
+        curr.parent = null;
 
         // Vamos al sgte nodo, y nos detenemos si volvemos al primero.
-        curr = curr.mNext;
-      } while (curr != minElem.mChild);
+        curr = curr.next;
+      } while (curr != minElem.child);
     }
 
     // Se une el nuevo minimo con sus hijos.
-    mMin = mergeLists(mMin, minElem.mChild);
+    mMin = mergeLists(mMin, minElem.child);
 
    // Si no hay más elementos, terminamos
-    if (mMin == null) return minElem;
+    if (mMin == null) return;
 
     // Se necesita tener sólo 1 árbol de cada grado, para lo cual se crea una lista que contenga dichos arboles
     // o nulo si es que aún no hay un arbol de dicho grado i.
@@ -150,7 +150,7 @@ public class FibonacciHeap {
     List<FNode> toVisit = new ArrayList<FNode>();
 
     // Para añadir, se itera entre los elementos hasta que se encuentra el primer elemento 2 veces
-    for (FNode curr = mMin; toVisit.isEmpty() || toVisit.get(0) != curr; curr = curr.mNext)
+    for (FNode curr = mMin; toVisit.isEmpty() || toVisit.get(0) != curr; curr = curr.next)
       toVisit.add(curr);
 
     // Unimos los elementos de toVisit
@@ -158,48 +158,47 @@ public class FibonacciHeap {
 
       while (true) {
         // Nos aseguramos de que la lista es lo suficientemente larga para contener al grado del arbol.
-        while (curr.mDegree >= treeTable.size())
+        while (curr.degree >= treeTable.size())
           treeTable.add(null);
 
         // Si no hay nada, se puede guardar el grado del arbol y se termina de procesar.
-        if (treeTable.get(curr.mDegree) == null) {
-          treeTable.set(curr.mDegree, curr);
+        if (treeTable.get(curr.degree) == null) {
+          treeTable.set(curr.degree, curr);
           break;
         }
 
         // Sino, se une lo que haya.
-        FNode other = treeTable.get(curr.mDegree);
-        treeTable.set(curr.mDegree, null); // Clear the slot
+        FNode other = treeTable.get(curr.degree);
+        treeTable.set(curr.degree, null); // Clear the slot
 
         // Se determina cual de los dos arboles es el más pequeño.
-        FNode min = (other.mPriority < curr.mPriority)? other : curr;
-        FNode max = (other.mPriority < curr.mPriority)? curr  : other;
+        FNode min = (other.priority < curr.priority)? other : curr;
+        FNode max = (other.priority < curr.priority)? curr  : other;
 
         // Se cuelga el arbol max del arbol min.
-        max.mNext.mPrev = max.mPrev;
-        max.mPrev.mNext = max.mNext;
+        max.next.prev = max.prev;
+        max.prev.next = max.next;
 
         // Se crea un singleton para poder unir los arboles.
-        max.mNext = max.mPrev = max;
-        min.mChild = mergeLists(min.mChild, max);
+        max.next = max.prev = max;
+        min.child = mergeLists(min.child, max);
 
         // Se reparentiza el maximo apropiadamente.
-        max.mParent = min;
+        max.parent = min;
 
         // Limpia la marca, ya que se puede perder un hijo.
-        max.mIsMarked = false;
+        max.isMarked = false;
 
         // Incremente el grado del mínimo, ya que tiene un nuevo hijo.
-        ++min.mDegree;
+        ++min.degree;
 
         // Continua uniendo el arbol.
         curr = min;
       }
 
       // Actualiza el mínimo global, basado en el nodo actual.
-      if (curr.mPriority <= mMin.mPriority) mMin = curr;
+      if (curr.priority <= mMin.priority) mMin = curr;
     }
-    return minElem;
   }
 
   /**
@@ -211,14 +210,14 @@ public class FibonacciHeap {
    */
   public void decreaseKey(FNode entry, double newDist) {
     // Cambiamos la prioridad.
-    entry.mPriority = newDist;
+    entry.priority = newDist;
 
     // Si el nodo ya no tiene una mejor prioridad que su padre, se corta.
-    if (entry.mParent != null && entry.mPriority <= entry.mParent.mPriority)
+    if (entry.parent != null && entry.priority <= entry.parent.priority)
       cutNode(entry);
 
     // Si el nuevo valor es el nuevo minimo, se cambia como tal.
-    if (entry.mPriority <= mMin.mPriority)
+    if (entry.priority <= mMin.priority)
       mMin = entry;
   }
 
@@ -238,17 +237,17 @@ public class FibonacciHeap {
     else if (one != null && two == null) { // La 2da es nula, se devuelve la 1ra.
       return one;
     }
-    else if (one == null && two != null) { // La 1ra es nula, se devuelve la 2da.
+    else if (one == null) { // La 1ra es nula, se devuelve la 2da.
       return two;
     }
     else { // Ambas son no nulas.
-      FNode oneNext = one.mNext; // Se cuelga el más grande del más pequeño.
-      one.mNext = two.mNext;
-      one.mNext.mPrev = one;
-      two.mNext = oneNext;
-      two.mNext.mPrev = two;
+      FNode oneNext = one.next; // Se cuelga el más grande del más pequeño.
+      one.next = two.next;
+      one.next.prev = one;
+      two.next = oneNext;
+      two.next.prev = two;
 
-      return one.mPriority < two.mPriority? one : two;
+      return one.priority < two.priority? one : two;
     }
   }
 
@@ -260,50 +259,46 @@ public class FibonacciHeap {
    */
   private void cutNode(FNode entry) {
     // Se cambia la marca del nodo, ya que será cortado.
-    entry.mIsMarked = false;
+    entry.isMarked = false;
 
     // Caso Base:
     // El nodo no tiene padre, está listo.
-    if (entry.mParent == null) return;
+    if (entry.parent == null) return;
 
     // Se reconectan los nodos laterales si es que tiene.
-    if (entry.mNext != entry) {
-      entry.mNext.mPrev = entry.mPrev;
-      entry.mPrev.mNext = entry.mNext;
+    if (entry.next != entry) {
+      entry.next.prev = entry.prev;
+      entry.prev.next = entry.next;
     }
 
-    /* If the node is the one identified by its parent as its child,
-     * we need to rewrite that pointer to point to some arbitrary other
-     * child.
-     */
     // Si el nodo es identificado como hijo de su padre
     // Hacemos que apunte al sgte hijo arbitrariamente.
-    if (entry.mParent.mChild == entry) {
+    if (entry.parent.child == entry) {
 
-      if (entry.mNext != entry) {
-        entry.mParent.mChild = entry.mNext;
+      if (entry.next != entry) {
+        entry.parent.child = entry.next;
       }
       // No hay más hijos, hacemos que apunte a null.
       else {
-        entry.mParent.mChild = null;
+        entry.parent.child = null;
       }
     }
 
     // Se perdió un hijo, se disminuye el grado del nodo.
-    --entry.mParent.mDegree;
+    --entry.parent.degree;
 
 
     // Se divide el arbol en su raíz y lo convierte a singleton.
-    entry.mPrev = entry.mNext = entry;
+    entry.prev = entry.next = entry;
     mMin = mergeLists(mMin, entry);
 
     // Marca el padre y corta recursivamente si ya ha sido marcado.
-    if (entry.mParent.mIsMarked)
-      cutNode(entry.mParent);
+    if (entry.parent.isMarked)
+      cutNode(entry.parent);
     else
-      entry.mParent.mIsMarked = true;
+      entry.parent.isMarked = true;
 
     // Limpia el nodo padre relocalizado, ya que ahora es raíz.
-    entry.mParent = null;
+    entry.parent = null;
   }
 }

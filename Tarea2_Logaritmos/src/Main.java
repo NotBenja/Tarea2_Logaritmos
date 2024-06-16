@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Main {
+public class    Main {
     private static Dijkstra d = new Dijkstra();
     private static Writer w = new Writer();
 
@@ -121,21 +121,21 @@ public class Main {
     // v = 2^i Nodos, i en {10,12,14}
     // e = 2^j Aristas, j en {16,17,18}
     public static void main(String[] args) {
-        int i = 10;
-        int j = 16;
-        String filenameHeap = "tests/resultsHeap";
-        String filenameFibonacci = "tests/resultsFibonacci";
+        //int i = 10;
+        //int j = 16;
+        //String filenameHeap = "tests/resultsHeap";
+        //String filenameFibonacci = "tests/resultsFibonacci";
 
         // Para el par i, j hace 50 tests para cada algoritmo
-        filenameHeap += toString(i) + "_" + toString(j) +".txt";
-        filenameFibonacci += toString(i) + "_" + toString(j) + ".txt";
+        //filenameHeap += toString(i) + "_" + toString(j) +".txt";
+        //filenameFibonacci += toString(i) + "_" + toString(j) + ".txt";
 
-        System.out.println("Tests heap");
-        testsHeap(i, j, 51, filenameHeap);
-        System.out.println("Tests heap finalizados");
-        System.out.println("Tests fibonacci");
-        testsFibonacci(i, j, 51, filenameFibonacci);
-        System.out.println("Tests fibonacci finalizados");
+        //System.out.println("Tests heap");
+        //testsHeap(i, j, 51, filenameHeap);
+        //System.out.println("Tests heap finalizados");
+        //System.out.println("Tests fibonacci");
+        //testsFibonacci(i, j, 51, filenameFibonacci);
+        //System.out.println("Tests fibonacci finalizados");
 
         /**
         // POR CADA PAR (i,j) se hacen 50 tests
@@ -146,8 +146,9 @@ public class Main {
         System.out.println("Grafo Ok");
         //createGrafo(10,17);
         //createGrafo(10,18);
+         */
         // Eve
-        //createGrafo(12,16);
+        Grafo g = createGrafo(12,16);
         //createGrafo(12,17);
         //createGrafo(12,18);
         // Benja
@@ -157,14 +158,16 @@ public class Main {
 
         Result rfibb = d.dijkstraFibb(g);
         System.out.println("Dijkstra Fibb Ok");
-        //Result rheap = d.dijkstraHeap(g);
-        //System.out.println("Dijkstra Heap Ok");
+        Result rheap = d.dijkstraHeap(g);
+        System.out.println("Dijkstra Heap Ok");
         System.out.println("Dist");
-        System.out.println(rfibb.getDist());
-        System.out.println("Previos");
-        System.out.println(rfibb.getPrevios());
-        System.out.println("Tiempo");
+        //System.out.println(rfibb.getDist());
+        //System.out.println("Previos");
+        //System.out.println(rfibb.getPrevios());
+        System.out.println("Tiempo fibb");
         System.out.println(rfibb.getTime());
-         */
+        System.out.println("Tiempo heap");
+        System.out.println(rheap.getTime());
+
     }
 }

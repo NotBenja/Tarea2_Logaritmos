@@ -5,6 +5,7 @@ import java.util.HashMap;
  * Es la clase que implementa el algoritmo Dijkstra.
  */
 public class Dijkstra {
+    public long iTime;
 
     /**
      * Aplica el algoritmo dijkstra sobre la raíz de un grafo.
@@ -126,6 +127,18 @@ public class Dijkstra {
         result.setTime(actualTime-initialTime);
 
         return result;
+    }
+
+    /**
+     * Calcula el tiempo
+     * @param initialTime
+     */
+    public long actualTime(long initialTime) {
+        long time = System.currentTimeMillis();
+        long calculated_time = time - initialTime;
+        System.out.println(calculated_time);
+        this.iTime = System.currentTimeMillis();
+        return calculated_time;
     }
 
     /**
