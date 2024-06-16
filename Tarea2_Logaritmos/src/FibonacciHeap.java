@@ -202,7 +202,7 @@ public class FibonacciHeap {
   }
 
   /**
-   * Disminuye llave del elemento entry a la nueva distancia newDist.
+   * Disminuye prioridad del elemento entry a la nueva distancia newDist.
    * Tiempo = O(1)
    *
    * @param entry El elemento con la prioridad que debe cambiar.
@@ -212,7 +212,7 @@ public class FibonacciHeap {
     // Cambiamos la prioridad.
     entry.priority = newDist;
 
-    // Si el nodo ya no tiene una mejor prioridad que su padre, se corta.
+    // Si el nodo tiene una mejor prioridad que su padre, se corta.
     if (entry.parent != null && entry.priority <= entry.parent.priority)
       cutNode(entry);
 
@@ -223,7 +223,7 @@ public class FibonacciHeap {
 
   /**
    * Función auxiliar, que dados dos punteros a nodos de fibonacci,
-   * las une para formar una sola en tiempo O(1).
+   * las une para formar una sola cola en tiempo O(1).
    *
    * @param one El primer elemento que debe ser unido.
    * @param two El segundo elemento que debe ser unido.
@@ -241,11 +241,13 @@ public class FibonacciHeap {
       return two;
     }
     else { // Ambas son no nulas.
-      FNode oneNext = one.next; // Se cuelga el más grande del más pequeño.
+      // Se cuelga el más grande del más pequeño.
+      FNode oneNext = one.next;
       one.next = two.next;
       one.next.prev = one;
       two.next = oneNext;
       two.next.prev = two;
+
 
       return one.priority < two.priority? one : two;
     }
