@@ -161,7 +161,7 @@ public class FibonacciHeap {
         while (curr.degree >= treeTable.size())
           treeTable.add(null);
 
-        // Si no hay nada, se puede guardar el grado del arbol y se termina de procesar.
+        // Si no hay nada, se puede guardar el arbol en el grado=i correspondiente y se termina de procesar.
         if (treeTable.get(curr.degree) == null) {
           treeTable.set(curr.degree, curr);
           break;
