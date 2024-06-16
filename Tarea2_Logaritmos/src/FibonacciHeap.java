@@ -167,7 +167,7 @@ public class FibonacciHeap {
           break;
         }
 
-        // Sino, se une lo que haya.
+        // Sino, se unen los dos arboles binomiales de = grado y se colocan en el grado que le corresponde.
         FNode other = treeTable.get(curr.degree);
         treeTable.set(curr.degree, null); // Clear the slot
 
@@ -175,12 +175,13 @@ public class FibonacciHeap {
         FNode min = (other.priority < curr.priority)? other : curr;
         FNode max = (other.priority < curr.priority)? curr  : other;
 
-        // Se cuelga el arbol max del arbol min.
+        // Se desconecta el max de sus vecinos
         max.next.prev = max.prev;
         max.prev.next = max.next;
 
         // Se crea un singleton para poder unir los arboles.
         max.next = max.prev = max;
+        // Se cuelga el arbol max del arbol min.
         min.child = mergeLists(min.child, max);
 
         // Se reparentiza el maximo apropiadamente.
