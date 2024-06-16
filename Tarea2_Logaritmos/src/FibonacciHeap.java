@@ -186,7 +186,7 @@ public class FibonacciHeap {
         // Se reparentiza el maximo apropiadamente.
         max.parent = min;
 
-        // Limpia la marca, ya que se puede perder un hijo.
+        // Resetea la marca, ya que se puede perder un hijo.
         max.isMarked = false;
 
         // Incremente el grado del mínimo, ya que tiene un nuevo hijo.
@@ -267,16 +267,15 @@ public class FibonacciHeap {
     // El nodo no tiene padre, está listo.
     if (entry.parent == null) return;
 
-    // Se reconectan los nodos laterales si es que tiene.
+    // Se desconecta de sus nodos laterales si es que tiene.
     if (entry.next != entry) {
       entry.next.prev = entry.prev;
       entry.prev.next = entry.next;
     }
 
     // Si el nodo es identificado como hijo de su padre
-    // Hacemos que apunte al sgte hijo arbitrariamente.
     if (entry.parent.child == entry) {
-
+      // Hacemos que apunte al sgte hijo arbitrariamente.
       if (entry.next != entry) {
         entry.parent.child = entry.next;
       }
@@ -300,7 +299,7 @@ public class FibonacciHeap {
     else
       entry.parent.isMarked = true;
 
-    // Limpia el nodo padre relocalizado, ya que ahora es raíz.
+    // Resetea el nodo padre del nodo cortado, ya que ahora es raíz.
     entry.parent = null;
   }
 }
