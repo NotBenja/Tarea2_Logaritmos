@@ -105,7 +105,7 @@ public class FibonacciHeap {
     // Como se pierde un elemento, se disminuye el tamaño de la cola.
     --size;
 
-    // Se guarda el minimo, así se sabe qué retornar.
+    // Se guarda el minimo dado que se desencolará
     FNode minElem = mMin;
 
     // Se busca eliminar el mínimo de la lista de raíces.
@@ -287,7 +287,6 @@ public class FibonacciHeap {
 
     // Se perdió un hijo, se disminuye el grado del nodo.
     --entry.parent.degree;
-
 
     // Se divide el arbol en su raíz y lo convierte a singleton.
     entry.prev = entry.next = entry;
