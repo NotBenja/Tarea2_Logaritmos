@@ -191,7 +191,7 @@ public class    Main {
         double promedioHeapInSeconds = totalHeap / 1e9;
         w.write(filenameHeap, "Promedio: " + promedioHeapInSeconds);
 
-        System.out.println("Total time: " + totalTime);
+        System.out.println("Tiempo total: " + totalTime + " segundos");
 
     }
 
@@ -201,7 +201,7 @@ public class    Main {
     // e = 2^j Aristas, j en {16,17,18}
     public static void main(String[] args) {
         int i = 10;
-        int j = 17;
+        int j = 16;
         testsDijkstra(i,j,51);
 
 
