@@ -72,6 +72,12 @@ public class    Main {
         return Long.toString(value);
     }
 
+    public static String toString(double value) {
+        return Double.toString(value);
+    }
+
+    /**
+
     /**
      * Escribe los resultados en tiempo para un grafo de i nodos y j aristas con cola Heap
      * @param i la cantidad de nodos del grafo
@@ -99,7 +105,7 @@ public class    Main {
 
             if (k > 0) {
                 total += durationHeap;
-                w.write(filename, toString(durationHeap));
+                w.write(filename, toString(durationHeapInSeconds));
             }
         }
         total = total / (limite - 1);
@@ -127,7 +133,7 @@ public class    Main {
 
             if (k > 0) {
                 total += durationFibb;
-                w.write(filename, toString(durationFibb));
+                w.write(filename, toString(durationFibbInSeconds));
             }
         }
         total = total / (limite - 1);
@@ -135,44 +141,103 @@ public class    Main {
         w.write(filename, "Promedio: " + promedioFibbInSeconds);
     }
 
+    public static void testsDijkstra(int i, int j, int limite) {
+        long totalFib = 0;
+        long totalHeap = 0;
+
+
+
+        String filenameHeap = "tests/Heap/resultsHeap";
+        String filenameFibonacci = "tests/Fib/resultsFibonacci";
+        // Para el par i, j hace 50 tests para cada algoritmo
+        filenameHeap += toString(i) + "_" + toString(j) +".txt";
+        filenameFibonacci += toString(i) + "_" + toString(j) + ".txt";
+
+        long initialTime = System.nanoTime();
+        for(int k = 0; k < limite; k++) {
+            Grafo g = createGrafo(i, j);
+            if (k != 0) {
+
+                // Testing Fibonacci
+                long startTimeFib = System.nanoTime();
+                Result rfibb = d.dijkstraFibb(g);
+                long endTimeFib = System.nanoTime();
+                long durationFib = endTimeFib - startTimeFib;
+                double durationFibInSeconds = durationFib / 1e9;
+                totalFib += durationFib;
+                w.write(filenameFibonacci, toString(durationFibInSeconds));
+
+                // Testing Heap
+                long startTimeHeap = System.nanoTime();
+                Result rheap = d.dijkstraHeap(g);
+                long endTimeHeap = System.nanoTime();
+                long durationHeap = endTimeHeap - startTimeHeap;
+                double durationHeapInSeconds = durationHeap / 1e9;
+                totalHeap += durationHeap;
+                w.write(filenameHeap, toString(durationHeapInSeconds));
+                System.out.println("Iteración "+ Integer.toString(k));
+            }
+        }
+        long finalTime = System.nanoTime();
+
+        double totalTime = (finalTime - initialTime)/1e9;
+
+        // Guardamos el promedio en los archivos
+        totalFib = totalFib / (limite - 1);
+        double promedioFibbInSeconds = totalFib / 1e9;
+        w.write(filenameFibonacci, "Promedio: " + promedioFibbInSeconds);
+
+        totalHeap = totalHeap / (limite - 1);
+        double promedioHeapInSeconds = totalHeap / 1e9;
+        w.write(filenameHeap, "Promedio: " + promedioHeapInSeconds);
+
+        System.out.println("Total time: " + totalTime);
+
+    }
+
+
     // Sets experimentación:
     // v = 2^i Nodos, i en {10,12,14}
     // e = 2^j Aristas, j en {16,17,18}
     public static void main(String[] args) {
         int i = 10;
-        int j = 16;
-        String filenameHeap = "tests/Heap/resultsHeap";
-        String filenameFibonacci = "tests/Fib/resultsFibonacci";
+        int j = 17;
+        testsDijkstra(i,j,51);
 
-        // Para el par i, j hace 50 tests para cada algoritmo
-        filenameHeap += toString(i) + "_" + toString(j) +".txt";
-        filenameFibonacci += toString(i) + "_" + toString(j) + ".txt";
 
-        System.out.println("Tests heap");
-        testsHeap(i, j, 51, filenameHeap);
-        System.out.println("Tests heap finalizados");
-        System.out.println("Tests fibonacci");
-        testsFibonacci(i, j, 51, filenameFibonacci);
-        System.out.println("Tests fibonacci finalizados");
-
-        /**
-        // POR CADA PAR (i,j) se hacen 50 tests
-        // Para regresión lineal: Suma de errores al cuadrado
-        //Zamy
-        System.out.println("Creando Grafo");
-        Grafo g = createGrafo(10,16);
-        System.out.println("Grafo Ok");
-        //createGrafo(10,17);
-        //createGrafo(10,18);
-         */
-        // Eve
-        //Grafo g = createGrafo(10,18);
-        //createGrafo(12,17);
-        //createGrafo(12,18);
-        // Benja
-        //createGrafo(14,16);
-        //createGrafo(14,17);
-        //createGrafo(14,18);
+        // TESTING CON GRAFOS DIFERENTES
+//        String filenameHeap = "tests/Heap/resultsHeap";
+//        String filenameFibonacci = "tests/Fib/resultsFibonacci";
+//
+//        // Para el par i, j hace 50 tests para cada algoritmo
+//        filenameHeap += toString(i) + "_" + toString(j) +".txt";
+//        filenameFibonacci += toString(i) + "_" + toString(j) + ".txt";
+//
+//        System.out.println("Tests heap");
+//        testsHeap(i, j, 51, filenameHeap);
+//        System.out.println("Tests heap finalizados");
+//        System.out.println("Tests fibonacci");
+//        testsFibonacci(i, j, 51, filenameFibonacci);
+//        System.out.println("Tests fibonacci finalizados");
+//
+//        /**
+//        // POR CADA PAR (i,j) se hacen 50 tests
+//        // Para regresión lineal: Suma de errores al cuadrado
+//        //Zamy
+//        System.out.println("Creando Grafo");
+//        Grafo g = createGrafo(10,16);
+//        System.out.println("Grafo Ok");
+//        //createGrafo(10,17);
+//        //createGrafo(10,18);
+//         */
+//        // Eve
+//        //Grafo g = createGrafo(10,18);
+//        //createGrafo(12,17);
+//        //createGrafo(12,18);
+//        // Benja
+//        //createGrafo(14,16);
+//        //createGrafo(14,17);
+//        //createGrafo(14,18);
 
 
 
