@@ -20,20 +20,18 @@ public class Heap {
     public void decreaseKey(Pair p, double newDist, int index) {
         p.setDist(newDist);
 
-        // Si este nodo es la raíz, no hacemos nada
-        if (index > 0) {
-            // Padre del nodo actual al que se le modifica la distancia
-            int parentIndex = (index-1)/2;
-            Pair parent = q.remove(parentIndex);
+        // Vamos a 'bubbling up' el nodo hasta su posición correcta
+        while (index > 0) {
+            int parentIndex = (index - 1) / 2;
+            Pair parent = q.get(parentIndex);
 
-            // Swap sobre el nodo y el padre, llamamos recursivamente
             if (parent.getDist() > newDist) {
-                q.add(parentIndex, p); // ponemos al hijo en la posición del padre
-                q.remove(index);
-                q.add(index, parent); // y al padre en la posición del hijo
-
-                // Llamamos recursivamente sobre la posición parentIndex
-                decreaseKey(p, newDist, parentIndex);
+                // Intercambiamos el nodo con su padre
+                q.set(index, parent);
+                q.set(parentIndex, p);
+                index = parentIndex;
+            } else {
+                break;
             }
         }
     }
@@ -145,5 +143,3 @@ public class Heap {
         this.q = pq;
     }
 }
-
-
