@@ -5,8 +5,6 @@ import java.util.HashMap;
  * Es la clase que implementa el algoritmo Dijkstra.
  */
 public class Dijkstra {
-    public long iTime;
-
     /**
      * Aplica el algoritmo dijkstra sobre la raíz de un grafo.
      * @param grafo Es un nodo raíz de un grafo de e aristas y v
@@ -17,9 +15,6 @@ public class Dijkstra {
      * al árbol que los conectan.
      */
     public Result dijkstraHeap(Grafo grafo) {
-        // Tiempo en el que el algoritmo empezó a trabajar
-        long initialTime = System.currentTimeMillis();
-
         // Crear una pseudo cola Q1
         ArrayList<Pair> q1 = new ArrayList<>();
 
@@ -123,22 +118,7 @@ public class Dijkstra {
         result.setDistancias(distancias);
         result.setPrevios(previos);
 
-        long actualTime = System.currentTimeMillis();
-        result.setTime(actualTime-initialTime);
-
         return result;
-    }
-
-    /**
-     * Calcula el tiempo
-     * @param initialTime
-     */
-    public long actualTime(long initialTime) {
-        long time = System.currentTimeMillis();
-        long calculated_time = time - initialTime;
-        System.out.println(calculated_time);
-        this.iTime = System.currentTimeMillis();
-        return calculated_time;
     }
 
     /**
@@ -151,9 +131,6 @@ public class Dijkstra {
      * al árbol que los conectan.
      */
     public Result dijkstraFibb(Grafo grafo) {
-        // Tiempo en el que el algoritmo empezó a trabajar
-        long initialTime = System.currentTimeMillis();
-
         // Cola de fibonacci para ir trabajando con los elementos
         FibonacciHeap q = new FibonacciHeap();
 
@@ -248,9 +225,6 @@ public class Dijkstra {
 
         result.setDistancias(distancias);
         result.setPrevios(previos);
-
-        long actualTime = System.currentTimeMillis();
-        result.setTime(actualTime-initialTime);
 
         return result;
     }

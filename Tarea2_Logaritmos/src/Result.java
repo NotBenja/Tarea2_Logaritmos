@@ -10,9 +10,6 @@ public class Result {
     /** Es una lista de nodos previos al nodo actual */
     private HashMap<Integer, Nodo> previos;
 
-    /** El tiempo en milisegundos que se demoró el algoritmo */
-    private long time;
-
     /** @return el arreglo de distancias */
     public HashMap<Integer, Double> getDist() {
         return distancias;
@@ -33,13 +30,4 @@ public class Result {
         this.distancias = distancias;
     }
 
-    /** @return el tiempo que demoró el algoritmo */
-    public long getTime() {
-        return time;
-    }
-
-    /** @param newTime el nuevo tiempo asociado al algoritmo */
-    public void setTime(long newTime) {
-        this.time = newTime;
-    }
 }

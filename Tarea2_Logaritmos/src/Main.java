@@ -145,8 +145,6 @@ public class    Main {
         long totalFib = 0;
         long totalHeap = 0;
 
-
-
         String filenameHeap = "tests/Heap/resultsHeap";
         String filenameFibonacci = "tests/Fib/resultsFibonacci";
         // Para el par i, j hace 50 tests para cada algoritmo
@@ -200,8 +198,8 @@ public class    Main {
     // v = 2^i Nodos, i en {10,12,14}
     // e = 2^j Aristas, j en {16,17,18}
     public static void main(String[] args) {
-        int i = 10;
-        int j = 16;
+        int i = 12;
+        int j = 18;
         testsDijkstra(i,j,51);
 
 
