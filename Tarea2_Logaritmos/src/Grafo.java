@@ -31,6 +31,7 @@ public class Grafo {
         if(v.contains(newNodo) || newNodo == null) {
             return;
         }
+
         v.add(newNodo);
     }
 
@@ -45,6 +46,7 @@ public class Grafo {
         if(e.contains(newArista) || newArista == null) {
             return;
         }
+
         e.add(newArista);
     }
 }
