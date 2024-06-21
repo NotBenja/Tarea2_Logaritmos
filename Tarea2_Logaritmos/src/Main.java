@@ -35,58 +35,25 @@ public class    Main {
         Random r = new Random();
 
         // Conectar los nodos del grafo (v-1 aristas)
-        int count = 0;
-        while (count < limiteNodos-1){
-            Nodo nodoK = nodos.get(count);
-            int index = r.nextInt(limiteNodos);
+        for (int k=1; k<limiteNodos-1; k++) {
+            Nodo nodoK = nodos.get(k);
+            int index = r.nextInt(k);
             Nodo otroNodo = nodos.get(index);
 
-            if (grafo_aux.get(nodoK).contains(otroNodo) || grafo_aux.get(otroNodo).contains(nodoK)) {
-                continue;
-            }
             // Generamos peso para la arista
             double peso = r.nextDouble();
+
             // Creamos una arista entre estos nodos
             Arista a = new Arista(peso, nodoK, otroNodo);
+
             g.addEdge(a);
+
             // Agregamos la conexión al HashMap
             grafo_aux.get(nodoK).add(otroNodo);
             grafo_aux.get(otroNodo).add(nodoK);
-            count++;
         }
-//        for (int k=1; k<limiteNodos-1; k++) {
-//            Nodo nodoK = nodos.get(k);
-//            int index = r.nextInt(k);
-//            Nodo otroNodo = nodos.get(index);
-//
-//            // Generamos peso para la arista
-//            double peso = r.nextDouble();
-//
-//            // Creamos una arista entre estos nodos
-//            Arista a = new Arista(peso, nodoK, otroNodo);
-//
-//            g.addEdge(a);
-//
-//            // Agregamos la conexión al HashMap
-//            grafo_aux.get(nodoK).add(otroNodo);
-//            grafo_aux.get(otroNodo).add(nodoK);
-//        }
 
-//        for (int k=0; k<limiteAristas-(limiteNodos-1); k++) {
-//            // Buscamos 2 nodos cualquiera
-//            int index1 = r.nextInt(limiteNodos);
-//            int index2 = r.nextInt(limiteNodos);
-//
-//            Nodo nodo1 = nodos.get(index1);
-//            Nodo nodo2 = nodos.get(index2);
-//
-//            // Generamos peso para la arista
-//            double peso = r.nextDouble();
-//
-//            // Creamos una arista entre estos nodos
-//            Arista a = new Arista(peso, nodo1, nodo2);
-//            g.addEdge(a);
-//        }
+        
         int aristasRestantes;
         // Las aristas restantes máximas a agregar son la resta entre el tope de aristas para no ser multigrafo
         // y las v-1 aristas ya agregadas
@@ -94,7 +61,7 @@ public class    Main {
         int max = (int) (limiteNodos *  (limiteNodos - 1) / 2) - (limiteNodos-1);
         // Vemos si es posible agregar la cantidad de aristas pedidas
         aristasRestantes = Math.min(restantes, max);
-        count = 0;
+        int count = 0;
         int cantidadNodos = nodos.size();
         while (count < aristasRestantes) {
 
