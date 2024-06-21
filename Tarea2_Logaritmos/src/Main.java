@@ -71,7 +71,11 @@ public class    Main {
     public static String toString(long value) {
         return Long.toString(value);
     }
-
+    /**
+     * Convierte un double en un string
+     * @param value Un valor tipo double
+     * @return El mismo valor transformado a string
+     */
     public static String toString(double value) {
         return Double.toString(value);
     }
@@ -79,68 +83,11 @@ public class    Main {
     /**
 
     /**
-     * Escribe los resultados en tiempo para un grafo de i nodos y j aristas con cola Heap
+     * Escribe los resultados en tiempo de Dijkstra para un grafo de i nodos y j aristas con Heap y con Colas de Fibonacci
      * @param i la cantidad de nodos del grafo
      * @param j la cantidad de aristas del grafo
      * @param limite la cantidad de tests y grafos (i,j) creados
-     * @param filename el nombre del archivo donde se guardan los tests
      */
-    /**
-     * Escribe los resultados en tiempo para un grafo de i nodos y j aristas con cola Heap
-     * @param i la cantidad de nodos del grafo
-     * @param j la cantidad de aristas del grafo
-     * @param limite la cantidad de tests y grafos (i,j) creados
-     * @param filename el nombre del archivo donde se guardan los tests
-     */
-    public static void testsHeap(int i, int j, int limite, String filename) {
-        long total = 0;
-        for(int k = 0; k < limite; k++) {
-            Grafo g = createGrafo(i, j);
-
-            long startTimeHeap = System.nanoTime();
-            Result r = d.dijkstraHeap(g);
-            long endTimeHeap = System.nanoTime();
-            long durationHeap = endTimeHeap - startTimeHeap;
-            double durationHeapInSeconds = durationHeap / 1e9;
-
-            if (k > 0) {
-                total += durationHeap;
-                w.write(filename, toString(durationHeapInSeconds));
-            }
-        }
-        total = total / (limite - 1);
-        double promedioHeapInSeconds = total / 1e9;
-        w.write(filename, "Promedio: " + promedioHeapInSeconds);
-    }
-
-    /**
-     * Escribe los resultados en tiempo para un grafo de i nodos y j aristas con cola Fibonacci
-     * @param i la cantidad de nodos del grafo
-     * @param j la cantidad de aristas del grafo
-     * @param limite la cantidad de tests y grafos (i,j) creados
-     * @param filename el nombre del archivo donde se guardan los tests
-     */
-    public static void testsFibonacci(int i, int j, int limite, String filename) {
-        long total = 0;
-        for(int k = 0; k < limite; k++) {
-            Grafo g = createGrafo(i, j);
-
-            long startTimeFibb = System.nanoTime();
-            Result rfibb = d.dijkstraFibb(g);
-            long endTimeFibb = System.nanoTime();
-            long durationFibb = endTimeFibb - startTimeFibb;
-            double durationFibbInSeconds = durationFibb / 1e9;
-
-            if (k > 0) {
-                total += durationFibb;
-                w.write(filename, toString(durationFibbInSeconds));
-            }
-        }
-        total = total / (limite - 1);
-        double promedioFibbInSeconds = total / 1e9;
-        w.write(filename, "Promedio: " + promedioFibbInSeconds);
-    }
-
     public static void testsDijkstra(int i, int j, int limite) {
         long totalFib = 0;
         long totalHeap = 0;
@@ -193,77 +140,10 @@ public class    Main {
 
     }
 
-
-    // Sets experimentación:
-    // v = 2^i Nodos, i en {10,12,14}
-    // e = 2^j Aristas, j en {16,17,18}
     public static void main(String[] args) {
-        int i = 12;
-        int j = 18;
+        int i = 10;
+        int j = 16;
         testsDijkstra(i,j,51);
-
-
-        // TESTING CON GRAFOS DIFERENTES
-//        String filenameHeap = "tests/Heap/resultsHeap";
-//        String filenameFibonacci = "tests/Fib/resultsFibonacci";
-//
-//        // Para el par i, j hace 50 tests para cada algoritmo
-//        filenameHeap += toString(i) + "_" + toString(j) +".txt";
-//        filenameFibonacci += toString(i) + "_" + toString(j) + ".txt";
-//
-//        System.out.println("Tests heap");
-//        testsHeap(i, j, 51, filenameHeap);
-//        System.out.println("Tests heap finalizados");
-//        System.out.println("Tests fibonacci");
-//        testsFibonacci(i, j, 51, filenameFibonacci);
-//        System.out.println("Tests fibonacci finalizados");
-//
-//        /**
-//        // POR CADA PAR (i,j) se hacen 50 tests
-//        // Para regresión lineal: Suma de errores al cuadrado
-//        //Zamy
-//        System.out.println("Creando Grafo");
-//        Grafo g = createGrafo(10,16);
-//        System.out.println("Grafo Ok");
-//        //createGrafo(10,17);
-//        //createGrafo(10,18);
-//         */
-//        // Eve
-//        //Grafo g = createGrafo(10,18);
-//        //createGrafo(12,17);
-//        //createGrafo(12,18);
-//        // Benja
-//        //createGrafo(14,16);
-//        //createGrafo(14,17);
-//        //createGrafo(14,18);
-
-
-
-        // TESTING UNITARIO
-
-//        // Creación del grafo
-//        System.out.println("Creando Grafo");
-//        Grafo g = createGrafo(14, 18); // Ajusta los parámetros según sea necesario
-//        System.out.println("Grafo creado");
-//
-//        // Crear una instancia de tu clase que tiene implementado el algoritmo Dijkstra
-//        Dijkstra d = new Dijkstra();
-//
-//        // Medir el tiempo de Dijkstra con Heap de Fibonacci
-//        long startTimeFibb = System.nanoTime();
-//        Result rfibb = d.dijkstraFibb(g);
-//        long endTimeFibb = System.nanoTime();
-//        long durationFibb = endTimeFibb - startTimeFibb;
-//        double durationFibbInSeconds = durationFibb / 1e9;
-//        System.out.println("Dijkstra Fibonacci Heap Ok");
-//        long startTimeHeap = System.nanoTime();
-//        Result rheap = d.dijkstraHeap(g);
-//        long endTimeHeap = System.nanoTime();
-//        long durationHeap = endTimeHeap - startTimeHeap;
-//        double durationHeapInSeconds = durationHeap / 1e9;
-//        System.out.println("Dijkstra Heap Ok");
-//        System.out.println("Tiempo Dijkstra Fibonacci Heap (s): " + durationFibbInSeconds);
-//        System.out.println("Tiempo Dijkstra Heap (s): " + durationHeapInSeconds);
 
     }
 }
